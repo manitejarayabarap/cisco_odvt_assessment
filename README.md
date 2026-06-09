@@ -90,8 +90,7 @@ commit message — answering the following:
 3. What would you do next if you had more time?
 4. If this were a real device on a real bench, what would you do differently?
 
-**If you used AI assistance**, include the transcript or a summary of how you
-used it as part of your submission.
+**If you used AI tools**, include the transcript and a brief note on what you kept, changed, or threw out from the output. Include these in your repo as part of the submission (e.g. in `NOTES.md` or a separate `ai_transcript.md`).
 
-> Try not to spend more than 1–2 hours total.
+Try to keep it under 2 hours. If you find yourself going over, stop and submit what you have.
 

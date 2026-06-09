@@ -1,14 +1,13 @@
 """
-device_sim.py  —  DO NOT MODIFY
+device_sim.py - DO NOT MODIFY
 
-Simulated hardware driver for a signal characterisation device.
+Simulated hardware driver for a signal characterization device.
 
 Mimics the interface of a real instrument driver:
 
     conn   = connect("192.168.10.5")
     configure(conn, {"tx_level": 180, "eq_gain": 8, "pre_emphasis": 3})
-    quality = quick_check(conn)   # fast SNR estimate (~0.15 s, 8 samples)
-    result  = measure(conn)       # full measurement  (~1.5 s, 500 samples)
+    result = measure(conn, n_samples=500)
     disconnect(conn)
 
 Timing mirrors realistic instrument behaviour.
@@ -40,34 +39,18 @@ def configure(conn: dict, params: dict) -> None:
 
     Expected keys
     -------------
-    tx_level     : int, 0–255   Transmit amplitude DAC level.
-    eq_gain      : int, 0–15    Receiver equalizer gain.
-    pre_emphasis : int, 0–7     Transmitter pre-emphasis tap weight.
+    tx_level     : int, 0-255   Transmit amplitude DAC level.
+    eq_gain      : int, 0-15    Receiver equalizer gain.
+    pre_emphasis : int, 0-7     Transmitter pre-emphasis tap weight.
     """
     time.sleep(0.15)
     conn["_params"] = dict(params)
 
 
-def quick_check(conn: dict) -> float:
-    """
-    Fast signal-quality pre-check using 8 samples (~0.15 s).
-
-    Returns an estimated SNR in dB.  Values below 7.0 dB indicate that
-    the current parameter settings are unlikely to produce a valid full
-    measurement — the device will either fail outright or return
-    out-of-range results.
-    """
-    time.sleep(0.15)
-    resp = requests.post(f"{API_URL}/quick_check", json=conn["_params"], timeout=30)
-    resp.raise_for_status()
-    return resp.json()["snr_estimate"]
-
-
 def measure(conn: dict, n_samples: int = 500) -> dict | None:
     """
-    Full characterisation measurement using n_samples (~n_samples * 0.003 s).
-
-    Returns None if the measurement fails (SNR too low or instrument error).
+    Collect a measurement from the device.
+    Returns None if the measurement fails (signal too weak or instrument error).
 
     Returns
     -------
@@ -82,4 +65,3 @@ def measure(conn: dict, n_samples: int = 500) -> dict | None:
     resp = requests.post(f"{API_URL}/measure", json=payload, timeout=60)
     resp.raise_for_status()
     return resp.json()
-

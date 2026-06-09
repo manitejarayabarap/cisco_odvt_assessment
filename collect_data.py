@@ -11,7 +11,7 @@ Usage:
 
 import csv
 
-from device_sim import connect, configure, disconnect, measure, quick_check
+from device_sim import connect, configure, disconnect, measure
 
 
 # ---------------------------------------------------------------------------
