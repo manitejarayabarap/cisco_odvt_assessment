@@ -4,19 +4,27 @@
 
 > **IMPORTANT: Read before you start**
 >
-> **Fork this repo to your own public GitHub account.**
-> Work in your fork. **DO NOT open a pull request back to this repository.**
-> Doing so would expose your work to other candidates.
+> **Do NOT fork this repo.** Clone it, then push to a new repo on your own GitHub account.
+> Do not create a pull request back to this repository.
 > **Failure to follow this instruction will be penalized.**
 
-1. Fork this repo to your own public GitHub account.
-2. Clone your fork locally.
-3. Create a virtual environment and install dependencies:
+1. Clone this repo locally:
+   ```bash
+   git clone https://github.com/hw-eng-challenge/hw-eng-challenge.git
+   cd hw-eng-challenge
+   ```
+2. Create a new **public** repo on your own GitHub account (any name).
+3. Point your local copy to your new repo:
+   ```bash
+   git remote set-url origin https://github.com/YOUR_USERNAME/YOUR_REPO.git
+   git push -u origin main
+   ```
+4. Create a virtual environment and install dependencies:
    ```bash
    python -m venv .venv
    pip install -r requirements.txt
    ```
-4. Run the script to confirm everything works:
+5. Run the script to confirm everything works:
    ```bash
    python collect_data.py
    ```
